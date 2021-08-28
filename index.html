@@ -242,6 +242,288 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/29/Enhance-Game-Textures-Literature-Review-Outline/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wilee Wang's Personal Page">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/08/29/Enhance-Game-Textures-Literature-Review-Outline/" itemprop="url">Enhance Game Textures-Literature Review Outline</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-08-29T00:27:29+08:00">
+                2021-08-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/08/29/Enhance-Game-Textures-Literature-Review-Outline/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2021/08/29/Enhance-Game-Textures-Literature-Review-Outline/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Enhance-Game-Texture-（）"><a href="#Enhance-Game-Texture-（）" class="headerlink" title="Enhance Game Texture （）"></a>Enhance Game Texture （）</h1><p>总结了一下增强游戏材质的一些方法，从超分辨到image-to-image translation，每个模型列出了它的特点或贡献。内容还有待补充，之后会开个github库把gan一系列的代码都给写一下。</p>
+<h2 id="Super-Resolution"><a href="#Super-Resolution" class="headerlink" title="Super-Resolution"></a>Super-Resolution</h2><h3 id="SR-ResNet"><a href="#SR-ResNet" class="headerlink" title="SR-ResNet"></a>SR-ResNet</h3><ul>
+<li>skip-connection</li>
+</ul>
+<h3 id="SR-GAN"><a href="#SR-GAN" class="headerlink" title="SR-GAN"></a>SR-GAN</h3><ul>
+<li><p>GAN</p>
+<ul>
+<li><p>generator</p>
+<ul>
+<li>SR-ResNet</li>
+</ul>
+</li>
+<li><p>discriminator</p>
+<ul>
+<li>feature extractor</li>
+<li>fully connect layer</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Perceptual loss</p>
+</li>
+</ul>
+<h3 id="DAN"><a href="#DAN" class="headerlink" title="DAN"></a>DAN</h3><ul>
+<li><p>degradation assumption</p>
+<ul>
+<li>blur &amp; down-sample | noise</li>
+</ul>
+</li>
+<li><p>alternating optimization</p>
+</li>
+</ul>
+<h3 id="Real-ESRGAN"><a href="#Real-ESRGAN" class="headerlink" title="Real-ESRGAN"></a>Real-ESRGAN</h3><ul>
+<li><p>degradation assumption</p>
+<ul>
+<li>random combination</li>
+</ul>
+</li>
+</ul>
+<h2 id="Generative-Adversarial-Networks"><a href="#Generative-Adversarial-Networks" class="headerlink" title="Generative Adversarial Networks"></a>Generative Adversarial Networks</h2><h3 id="DCGAN"><a href="#DCGAN" class="headerlink" title="DCGAN"></a>DCGAN</h3><ul>
+<li><p>vector arithmetic properties</p>
+</li>
+<li><p>ease difficulty of gan training</p>
+<ul>
+<li>replace POOL with CONV</li>
+<li>Batch Norm</li>
+<li>Remove full connected layer</li>
+<li>Relu for generator</li>
+<li>Leaky Relu for discriminator</li>
+</ul>
+</li>
+</ul>
+<h3 id="CGAN"><a href="#CGAN" class="headerlink" title="CGAN"></a>CGAN</h3><ul>
+<li>Conditional Adversarial Nets</li>
+<li>Multi-modal experiment</li>
+</ul>
+<h3 id="VAE-GAN"><a href="#VAE-GAN" class="headerlink" title="VAE/GAN"></a>VAE/GAN</h3><ul>
+<li><p>combine VAE and GAN</p>
+</li>
+<li><p>optimization</p>
+<ul>
+<li><p>encoder</p>
+<ul>
+<li>KL + Feature-space</li>
+</ul>
+</li>
+<li><p>decoder/generator</p>
+<ul>
+<li>gamma * Feature-space - adversarial</li>
+</ul>
+</li>
+<li><p>discriminator</p>
+<ul>
+<li><p>adversarial loss</p>
+<ul>
+<li>real sample</li>
+<li>generated from z ~ p(z)</li>
+<li>generated from z ~ q(z|x)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="ACGAN"><a href="#ACGAN" class="headerlink" title="ACGAN"></a>ACGAN</h3><ul>
+<li><p>More classes, Higher resolution</p>
+</li>
+<li><p>Measurement</p>
+<ul>
+<li><p>Discriminability</p>
+<ul>
+<li>a pre-trained inception network</li>
+</ul>
+</li>
+<li><p>Diversity</p>
+<ul>
+<li>Multiscale structural similarity</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Progressive-GAN"><a href="#Progressive-GAN" class="headerlink" title="Progressive GAN"></a>Progressive GAN</h3><ul>
+<li>keep introducing resolution</li>
+</ul>
+<h3 id="StyleGAN"><a href="#StyleGAN" class="headerlink" title="StyleGAN"></a>StyleGAN</h3><ul>
+<li><p>Disentanglement studies</p>
+<ul>
+<li><p>Perceptual Path Length</p>
+</li>
+<li><p>Linear Separability</p>
+<ul>
+<li><p>conditional entropy H(Y|X)</p>
+<ul>
+<li>X classes predicted by SVM</li>
+<li>Y classes determined by the pre-trained classifier</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Conclusion</p>
+<ul>
+<li>Spatially invariant statistics encode the style of an image</li>
+<li>Spatially varying features encode a specific instance</li>
+</ul>
+</li>
+</ul>
+<h3 id="StyleGAN2"><a href="#StyleGAN2" class="headerlink" title="StyleGAN2"></a>StyleGAN2</h3><h2 id="Image-to-image-translation"><a href="#Image-to-image-translation" class="headerlink" title="Image-to-image translation"></a>Image-to-image translation</h2><h3 id="pixel2pixel"><a href="#pixel2pixel" class="headerlink" title="pixel2pixel"></a>pixel2pixel</h3><ul>
+<li><p>image-conditional GANS</p>
+<ul>
+<li><p>generator</p>
+</li>
+<li><p>discriminator</p>
+</li>
+<li><p>objective</p>
+<ul>
+<li>L1 loss</li>
+<li>GAN loss</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Measurement</p>
+<ul>
+<li>AMT perceptual studies</li>
+<li>FCN-score</li>
+</ul>
+</li>
+</ul>
+<h3 id="PSP"><a href="#PSP" class="headerlink" title="PSP"></a>PSP</h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/28/%E6%9D%82%E8%AE%B0%EF%BC%8C%E4%B8%80/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -701,7 +983,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -714,7 +996,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
