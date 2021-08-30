@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="科研," />
 
 
 
@@ -79,18 +79,21 @@
 
 
 
-<meta name="description" content="How to stop time: kiss.How to travel in time: read.How to escape time: music.How to feel time: write.How to release time: breathe.">
+<meta name="description" content="A Style-Based Generator Architecture for Generative Adversarial Networks  Generatorstylegan的generator相较于普通的gan，主要增加了一个mapping过程，让网络去学习一个disentangle的从latent space到image的映射。 代码中特殊的地方：   在参数初始化时，stylega">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello, My World">
-<meta property="og:url" content="http://example.com/2021/08/27/hello-world/index.html">
+<meta property="og:title" content="StyleGAN 代码详解">
+<meta property="og:url" content="http://example.com/2021/08/30/StyleGAN-%E4%BB%A3%E7%A0%81%E8%AF%A6%E8%A7%A3/index.html">
 <meta property="og:site_name" content="Wilee Wang&#39;s Personal Page">
-<meta property="og:description" content="How to stop time: kiss.How to travel in time: read.How to escape time: music.How to feel time: write.How to release time: breathe.">
+<meta property="og:description" content="A Style-Based Generator Architecture for Generative Adversarial Networks  Generatorstylegan的generator相较于普通的gan，主要增加了一个mapping过程，让网络去学习一个disentangle的从latent space到image的映射。 代码中特殊的地方：   在参数初始化时，stylega">
 <meta property="og:locale">
-<meta property="article:published_time" content="2021-08-27T10:21:44.401Z">
-<meta property="article:modified_time" content="2021-08-27T15:22:11.385Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/wileewang/MarkdownPhotos/main/GAN/StyleGAN.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wileewang/MarkdownPhotos/main/GAN/StyleGAN%20-%20Linear%20Structure.png">
+<meta property="article:published_time" content="2021-08-30T14:38:39.000Z">
+<meta property="article:modified_time" content="2021-08-30T16:01:54.518Z">
 <meta property="article:author" content="Wilee Wang">
-<meta property="article:tag" content="computer vision">
+<meta property="article:tag" content="科研">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wileewang/MarkdownPhotos/main/GAN/StyleGAN.png">
 
 
 
@@ -120,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://example.com/2021/08/27/hello-world/"/>
+  <link rel="canonical" href="http://example.com/2021/08/30/StyleGAN-代码详解/"/>
 
 
 
 
 
-  <title>Hello, My World | Wilee Wang's Personal Page</title>
+  <title>StyleGAN 代码详解 | Wilee Wang's Personal Page</title>
   
 
 
@@ -243,7 +246,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/27/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/30/StyleGAN-%E4%BB%A3%E7%A0%81%E8%AF%A6%E8%A7%A3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -260,7 +263,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Hello, My World</h1>
+          <h1 class="post-title" itemprop="name headline">StyleGAN 代码详解</h1>
         
 
         <div class="post-meta">
@@ -272,8 +275,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-08-27T18:21:44+08:00">
-                2021-08-27
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-08-30T22:38:39+08:00">
+                2021-08-30
               </time>
             
 
@@ -291,9 +294,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2021/08/27/hello-world/#comments" itemprop="discussionUrl">
+                <a href="/2021/08/30/StyleGAN-%E4%BB%A3%E7%A0%81%E8%AF%A6%E8%A7%A3/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2021/08/27/hello-world/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2021/08/30/StyleGAN-代码详解/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -321,7 +324,130 @@
       
 
       
-        <p>How to stop time: kiss.<br>How to travel in time: read.<br>How to escape time: music.<br>How to feel time: write.<br>How to release time: breathe.</p>
+        <p> <strong>A Style-Based Generator Architecture for Generative Adversarial Networks</strong></p>
+<p><img src="https://raw.githubusercontent.com/wileewang/MarkdownPhotos/main/GAN/StyleGAN.png" alt="Style GAN code flowchart"></p>
+<h2 id="Generator"><a href="#Generator" class="headerlink" title="Generator"></a>Generator</h2><p>stylegan的generator相较于普通的gan，主要增加了一个mapping过程，让网络去学习一个disentangle的从latent space到image的映射。</p>
+<p>代码中特殊的地方：</p>
+<blockquote>
+<ul>
+<li><p>在参数初始化时，stylegan加入了equal learning rate的策略；</p>
+</li>
+<li><p>自定义了三类算子的梯度</p>
+</li>
+<li><p>upsample</p>
+</li>
+<li><p>downsample</p>
+</li>
+<li><p>blur</p>
+</li>
+</ul>
+</blockquote>
+<h3 id="MLP"><a href="#MLP" class="headerlink" title="MLP"></a>MLP</h3><p>使用了多层全连接，输入、隐藏、输出的维度都是一样的（512）。</p>
+<p>输入是数量为batch size的latent vector，一般维度为<code>[batch size， 512]</code></p>
+<ul>
+<li><p>Dense</p>
+<ul>
+<li>8 * (Equal Dense + bias + act)</li>
+</ul>
+</li>
+</ul>
+<h3 id="Synthesis"><a href="#Synthesis" class="headerlink" title="Synthesis"></a>Synthesis</h3><ul>
+<li><p>Early Layer</p>
+<ul>
+<li><p>CONST</p>
+<p>stylegan以一个<code>[?, 512 ,4, 4]</code>，值全为1的tensor作为输入。在源码中，这里不定义batch size，而是根据输入的latent来定义的batch size</p>
+</li>
+<li><p>TILE</p>
+<p>broadcast，使其和latent vector的数量一致。即<code>[batch, 512]</code> vs <code>[batch, 512, 4, 4]</code></p>
+</li>
+<li><p>LAYER EPILOGUE</p>
+<p>在完成<code>conv</code>或者<code>upscale_conv</code>之后的操作，噪声和style都是在这一步添加</p>
+<ul>
+<li><p>add noise</p>
+<p>不直接加入高斯噪声，而是<code>weight * noise</code>，权重<code>[1, 512, 1, 1]</code>，输入的每个channel都对应一个权重（scalar）</p>
+</li>
+<li><p>add bias</p>
+<p><code>[1, 512, 1, 1]</code></p>
+</li>
+<li><p>leaky relu</p>
+</li>
+<li><p>instance normalization</p>
+</li>
+<li><p>style modulate</p>
+<ul>
+<li><p>latent transform</p>
+<p>把latent vector用一个全连接从<code>[batch, 512]</code>转成<code>[batch, 2, 512, 1, 1]</code></p>
+<ul>
+<li>latent dense</li>
+<li>add bias</li>
+</ul>
+</li>
+<li><p>modulate</p>
+<p>每一个channel使用两个值，对应scaling和shifting操作</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Linear Structure</p>
+<p>源码中默认使用linear structure，主要是表现grow这个过程，对应初始的constant输入，有两条线路</p>
+<p>每一个分辨率<code>[4, 8, 16, 32, 64, 128, 256, 512, 1024]</code>对应一个image_out。</p>
+<p>每一个image_out是由</p>
+<blockquote>
+<ol>
+<li>上一分辨率的image_out使用upscale</li>
+<li>当前网络的tensor输出转为rgb</li>
+</ol>
+</blockquote>
+<p>两者进行linear interpolation的结果</p>
+<p><img src="https://raw.githubusercontent.com/wileewang/MarkdownPhotos/main/GAN/StyleGAN%20-%20Linear%20Structure.png" alt="linear structure"></p>
+<ul>
+<li><p><strong>x</strong></p>
+<ul>
+<li><p>BLOCK</p>
+<ul>
+<li><p>CONV UP</p>
+<ul>
+<li>conv_transpose/conv+upscale2d</li>
+<li>blur</li>
+<li>LAYER EPILOGUE</li>
+</ul>
+</li>
+<li><p>CONV</p>
+<ul>
+<li>conv</li>
+<li>LAYER EPILOGUE</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>TORGB</p>
+<ul>
+<li>conv</li>
+<li>bias</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>TORGB</p>
+<ul>
+<li><p><strong>image</strong></p>
+<ul>
+<li>upscale2d</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>image out</p>
+<ul>
+<li>interpolation between x and image</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 
       
     </div>
@@ -337,6 +463,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/%E7%A7%91%E7%A0%94/" rel="tag"># 科研</a>
+          
+        </div>
+      
 
       
       
@@ -346,15 +478,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2021/08/29/Enhance-Game-Textures-Literature-Review-Outline/" rel="next" title="Enhance Game Textures-Literature Review Outline">
+                <i class="fa fa-chevron-left"></i> Enhance Game Textures-Literature Review Outline
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2021/08/27/Phd%E7%94%B3%E8%AF%B7%E4%B9%8B%E8%B7%AF/" rel="prev" title="PhD申请之路">
-                PhD申请之路 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -416,8 +548,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -468,6 +609,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Generator"><span class="nav-number">1.</span> <span class="nav-text">Generator</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MLP"><span class="nav-number">1.1.</span> <span class="nav-text">MLP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Synthesis"><span class="nav-number">1.2.</span> <span class="nav-text">Synthesis</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -628,9 +785,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://example.com/2021/08/27/hello-world/';
-          this.page.identifier = '2021/08/27/hello-world/';
-          this.page.title = 'Hello, My World';
+          this.page.url = 'http://example.com/2021/08/30/StyleGAN-%E4%BB%A3%E7%A0%81%E8%AF%A6%E8%A7%A3/';
+          this.page.identifier = '2021/08/30/StyleGAN-代码详解/';
+          this.page.title = 'StyleGAN 代码详解';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://wileewang.disqus.com/embed.js';
