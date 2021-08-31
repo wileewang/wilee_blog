@@ -242,6 +242,158 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/31/pixel2style2pixel-%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wilee Wang's Personal Page">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/08/31/pixel2style2pixel-%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/" itemprop="url">pixel2style2pixel 论文笔记</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-08-31T23:12:48+08:00">
+                2021-08-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/08/31/pixel2style2pixel-%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2021/08/31/pixel2style2pixel-论文笔记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="《Encoding-in-Style-a-StyleGAN-Encoder-for-Image-to-Image-Translation》"><a href="#《Encoding-in-Style-a-StyleGAN-Encoder-for-Image-to-Image-Translation》" class="headerlink" title="《Encoding in Style: a StyleGAN Encoder for Image-to-Image Translation》"></a>《<em>Encoding in Style: a StyleGAN Encoder for Image-to-Image Translation</em>》</h2><p><img src="https://raw.githubusercontent.com/wileewang/MarkdownPhotos/main/GAN/pSp%20notes.jpg" alt="pSp notes"></p>
+<p>一个在stylegan基础上比较有趣的延伸，利用了stylegan能够生成高分辨、高质量图像的特性。</p>
+<h3 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h3><ul>
+<li>利用传统W空间进行inverse的效果很差(<em>w does not lead to an accurate reconstruction</em>)，pSp使用了w+空间，通俗点说就是用了图像不同分辨率的信息，然后加入到对应的stylegan generator中</li>
+<li>大部分方法实现latent space manipulation的方式是<em>inverse first, edit later</em>,  pSp直接把图片编码成对应的隐向量(<em>encodes input images into the corresponding output latents</em>), 这样做的好处是能够<em>handle inputs that do not reside in the StyleGAN domain</em> 关于这点论文没有给出太多解释</li>
+<li>以往方法不能兼容其他translation tasks，pSp向pixel2pixel学习，提出了一个generic framework</li>
+</ul>
+<h3 id="Architecture"><a href="#Architecture" class="headerlink" title="Architecture"></a>Architecture</h3><h4 id="Feature-Pyramid-Network"><a href="#Feature-Pyramid-Network" class="headerlink" title="Feature Pyramid Network"></a>Feature Pyramid Network</h4><p>在stylegan中，作者对不同layer加入的style所控制的细节进行了分类，分为coarse, medium还有fine（<em>authors have shown that the different style inputs correspond to different levels of detail, which are roughly divided into three groups — coarse, medium and fine</em>）。使用该思路，pSp用一个FPN提取出三种尺度的特征图。</p>
+<h4 id="Map2Style"><a href="#Map2Style" class="headerlink" title="Map2Style"></a>Map2Style</h4><p>stylegan generator总共有18次加入style，于是对于FPN提取出的三种尺度特征图，使用对应数量（<em>coarse（1-2），medium（3-6） and fine</em>（7-18））的map2style转成相应维度的W+隐向量。<strong>这个过程完成了input latents到target latents的转换</strong>。</p>
+<h4 id="StyleGAN-Generator"><a href="#StyleGAN-Generator" class="headerlink" title="StyleGAN Generator"></a>StyleGAN Generator</h4><p>将原来由mapping得到的w向量换成map2style输出的w向量，其余参数不变。以前的stylegan每一layer输入的w都相同，现在经历了这些操作后各不相同。</p>
+<h3 id="Objective"><a href="#Objective" class="headerlink" title="Objective"></a>Objective</h3><p>pSp优化主要有四个目标pixel loss, perceptual loss, regularization loss和identity loss</p>
+<h4 id="Pixel-loss"><a href="#Pixel-loss" class="headerlink" title="Pixel loss"></a>Pixel loss</h4><p>直接计算输入图像x和模型infer之后的图像之间的L2 loss</p>
+<h4 id="Perceptual-Loss"><a href="#Perceptual-Loss" class="headerlink" title="Perceptual Loss"></a>Perceptual Loss</h4><p>有点类似于SRGAN的思路，就是不在pixel-space计算loss，用一个feature extractor先提取特征再计算两者的loss</p>
+<h4 id="Regularization-Loss"><a href="#Regularization-Loss" class="headerlink" title="Regularization Loss"></a>Regularization Loss</h4><p>为了保证由图像encoding生成的W隐向量不能太偏离stylegan中的W的domain，其实这一点和motivation有一点矛盾，这样做并不利于pSp处理不在stylegan domain的input。</p>
+<p>**有点类似于Auto-Encoder中的KL Divergence，其要求input生成的q(z|x)尽量和p(z)相似。可以把经历了FPN和map2style得到的w看做q(z|x)，pre-trained stylegan的w分布看做p(z)**。</p>
+<h4 id="Identity-Loss"><a href="#Identity-Loss" class="headerlink" title="Identity Loss"></a>Identity Loss</h4><p>也是比较specific，主要是保证经过pSp encode和decode(stylegan generator可以看成一个decode过程)得到的人脸在标识性上不能有太大偏差，即能认得出来是同一个人。这里使用到了一个辅助网络ArcFace Network，该网络用来判断两张脸是不是同一人</p>
+<h3 id="Discussion"><a href="#Discussion" class="headerlink" title="Discussion"></a>Discussion</h3><p>论文给出了两个缺陷</p>
+<ul>
+<li>第一就是之前提到的，不适用于不在stylegan domain的图片；</li>
+<li>第二就是inversion的图像在一些finer detail上表现不太好，比如有些人脸缺失了耳环；</li>
+</ul>
+<p>总的来说，pSp还是经历了encode和decode的过程，必然会有恢复上的损失，如果想对不在stylegan domain的图像进行semantic manipulation，比如给动漫人物戴眼镜，戴口罩这类操作，仍旧不可行。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/30/StyleGAN-%E4%BB%A3%E7%A0%81%E8%AF%A6%E8%A7%A3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1183,7 +1335,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

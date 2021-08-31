@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="随笔," />
+  <meta name="keywords" content="科研," />
 
 
 
@@ -79,18 +79,20 @@
 
 
 
-<meta name="description" content="blog创了有两三天了，但周末还不想折腾学习上的东西，想好好抒发一下自己的情绪。 和小严走过很多地方，最喜欢的还是西安。 不知道为什么，西安这个城市给我一种特别的感觉。 它很陈旧，十三朝古都，钟鼓楼，旧城墙； 它很繁华，新一线城市，霓虹灯，回民街； 这种不那么矛盾的矛盾，就类似于每个夜晚来到酒馆的顾客，常常转身按亮自己的手机，深吸一口气，然后回头大声喧闹着，摇着桌上的骰子。 自己只走过一个地方，是">
+<meta name="description" content="《Encoding in Style: a StyleGAN Encoder for Image-to-Image Translation》 一个在stylegan基础上比较有趣的延伸，利用了stylegan能够生成高分辨、高质量图像的特性。 Motivation 利用传统W空间进行inverse的效果很差(w does not lead to an accurate reconstruction">
 <meta property="og:type" content="article">
-<meta property="og:title" content="杂记，一">
-<meta property="og:url" content="http://example.com/2021/08/28/%E6%9D%82%E8%AE%B0%EF%BC%8C%E4%B8%80/index.html">
+<meta property="og:title" content="pixel2style2pixel 论文笔记">
+<meta property="og:url" content="http://example.com/2021/08/31/pixel2style2pixel-%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Wilee Wang&#39;s Personal Page">
-<meta property="og:description" content="blog创了有两三天了，但周末还不想折腾学习上的东西，想好好抒发一下自己的情绪。 和小严走过很多地方，最喜欢的还是西安。 不知道为什么，西安这个城市给我一种特别的感觉。 它很陈旧，十三朝古都，钟鼓楼，旧城墙； 它很繁华，新一线城市，霓虹灯，回民街； 这种不那么矛盾的矛盾，就类似于每个夜晚来到酒馆的顾客，常常转身按亮自己的手机，深吸一口气，然后回头大声喧闹着，摇着桌上的骰子。 自己只走过一个地方，是">
+<meta property="og:description" content="《Encoding in Style: a StyleGAN Encoder for Image-to-Image Translation》 一个在stylegan基础上比较有趣的延伸，利用了stylegan能够生成高分辨、高质量图像的特性。 Motivation 利用传统W空间进行inverse的效果很差(w does not lead to an accurate reconstruction">
 <meta property="og:locale">
-<meta property="article:published_time" content="2021-08-28T15:46:56.000Z">
-<meta property="article:modified_time" content="2021-08-28T16:19:11.708Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/wileewang/MarkdownPhotos/main/GAN/pSp%20notes.jpg">
+<meta property="article:published_time" content="2021-08-31T15:12:48.000Z">
+<meta property="article:modified_time" content="2021-08-31T16:11:24.316Z">
 <meta property="article:author" content="Wilee Wang">
-<meta property="article:tag" content="随笔">
+<meta property="article:tag" content="科研">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wileewang/MarkdownPhotos/main/GAN/pSp%20notes.jpg">
 
 
 
@@ -120,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://example.com/2021/08/28/杂记，一/"/>
+  <link rel="canonical" href="http://example.com/2021/08/31/pixel2style2pixel-论文笔记/"/>
 
 
 
 
 
-  <title>杂记，一 | Wilee Wang's Personal Page</title>
+  <title>pixel2style2pixel 论文笔记 | Wilee Wang's Personal Page</title>
   
 
 
@@ -243,7 +245,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/28/%E6%9D%82%E8%AE%B0%EF%BC%8C%E4%B8%80/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/31/pixel2style2pixel-%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -260,7 +262,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">杂记，一</h1>
+          <h1 class="post-title" itemprop="name headline">pixel2style2pixel 论文笔记</h1>
         
 
         <div class="post-meta">
@@ -272,8 +274,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-08-28T23:46:56+08:00">
-                2021-08-28
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-08-31T23:12:48+08:00">
+                2021-08-31
               </time>
             
 
@@ -291,9 +293,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2021/08/28/%E6%9D%82%E8%AE%B0%EF%BC%8C%E4%B8%80/#comments" itemprop="discussionUrl">
+                <a href="/2021/08/31/pixel2style2pixel-%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2021/08/28/杂记，一/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2021/08/31/pixel2style2pixel-论文笔记/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -321,30 +323,28 @@
       
 
       
-        <p>blog创了有两三天了，但周末还不想折腾学习上的东西，想好好抒发一下自己的情绪。</p>
-<p>和小严走过很多地方，最喜欢的还是西安。</p>
-<p>不知道为什么，西安这个城市给我一种特别的感觉。</p>
-<p>它很陈旧，十三朝古都，钟鼓楼，旧城墙；</p>
-<p>它很繁华，新一线城市，霓虹灯，回民街；</p>
-<p>这种不那么矛盾的矛盾，就类似于每个夜晚来到酒馆的顾客，常常转身按亮自己的手机，深吸一口气，然后回头大声喧闹着，摇着桌上的骰子。</p>
-<p>自己只走过一个地方，是从小向往到大的城市，香港。</p>
-<p>哦对，还有一个上海。</p>
-<p>因为，Hongkong and Shanghai Banking Corporation嘛，这个梗你不懂也无所谓，我懂就行。</p>
-<p>小时候知道，香港有亚洲排名第一的大学。</p>
-<p>不知道，香港有亚洲名列前茅的人口密度。</p>
-<p>小时候知道，香港是国际金融中心。</p>
-<p>不知道，香港是一座在专制管辖下的自由之城。</p>
-<p>如果你不知道我为什么列出这些矛盾，</p>
-<p>因为当我去了梦寐以求的大学之后，我得缩在4平方米的出租屋里，4平方给不了你一扇窥探城市夜景的窗。</p>
-<p>因为当我以国家有这样的城市自豪时，反占中，游行，暴乱告诉我，小小的地方也有大大的不同。</p>
-<p>我更不知道的是，世事更迭，亚洲第一的大学不再是它，有日，自由之城也会不再是它。</p>
-<p>那这座城市，留下的只有八九十年代港星们，拿着有个小尾巴的无线话筒，唱着</p>
-<p>“</p>
-<p>落寞寂寞的一个夜晚</p>
-<p>重投平凡再见梦幻</p>
-<p>但愿是潇洒告别</p>
-<p>休说可归返</p>
-<p>”</p>
+        <h2 id="《Encoding-in-Style-a-StyleGAN-Encoder-for-Image-to-Image-Translation》"><a href="#《Encoding-in-Style-a-StyleGAN-Encoder-for-Image-to-Image-Translation》" class="headerlink" title="《Encoding in Style: a StyleGAN Encoder for Image-to-Image Translation》"></a>《<em>Encoding in Style: a StyleGAN Encoder for Image-to-Image Translation</em>》</h2><p><img src="https://raw.githubusercontent.com/wileewang/MarkdownPhotos/main/GAN/pSp%20notes.jpg" alt="pSp notes"></p>
+<p>一个在stylegan基础上比较有趣的延伸，利用了stylegan能够生成高分辨、高质量图像的特性。</p>
+<h3 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h3><ul>
+<li>利用传统W空间进行inverse的效果很差(<em>w does not lead to an accurate reconstruction</em>)，pSp使用了w+空间，通俗点说就是用了图像不同分辨率的信息，然后加入到对应的stylegan generator中</li>
+<li>大部分方法实现latent space manipulation的方式是<em>inverse first, edit later</em>,  pSp直接把图片编码成对应的隐向量(<em>encodes input images into the corresponding output latents</em>), 这样做的好处是能够<em>handle inputs that do not reside in the StyleGAN domain</em> 关于这点论文没有给出太多解释</li>
+<li>以往方法不能兼容其他translation tasks，pSp向pixel2pixel学习，提出了一个generic framework</li>
+</ul>
+<h3 id="Architecture"><a href="#Architecture" class="headerlink" title="Architecture"></a>Architecture</h3><h4 id="Feature-Pyramid-Network"><a href="#Feature-Pyramid-Network" class="headerlink" title="Feature Pyramid Network"></a>Feature Pyramid Network</h4><p>在stylegan中，作者对不同layer加入的style所控制的细节进行了分类，分为coarse, medium还有fine（<em>authors have shown that the different style inputs correspond to different levels of detail, which are roughly divided into three groups — coarse, medium and fine</em>）。使用该思路，pSp用一个FPN提取出三种尺度的特征图。</p>
+<h4 id="Map2Style"><a href="#Map2Style" class="headerlink" title="Map2Style"></a>Map2Style</h4><p>stylegan generator总共有18次加入style，于是对于FPN提取出的三种尺度特征图，使用对应数量（<em>coarse（1-2），medium（3-6） and fine</em>（7-18））的map2style转成相应维度的W+隐向量。<strong>这个过程完成了input latents到target latents的转换</strong>。</p>
+<h4 id="StyleGAN-Generator"><a href="#StyleGAN-Generator" class="headerlink" title="StyleGAN Generator"></a>StyleGAN Generator</h4><p>将原来由mapping得到的w向量换成map2style输出的w向量，其余参数不变。以前的stylegan每一layer输入的w都相同，现在经历了这些操作后各不相同。</p>
+<h3 id="Objective"><a href="#Objective" class="headerlink" title="Objective"></a>Objective</h3><p>pSp优化主要有四个目标pixel loss, perceptual loss, regularization loss和identity loss</p>
+<h4 id="Pixel-loss"><a href="#Pixel-loss" class="headerlink" title="Pixel loss"></a>Pixel loss</h4><p>直接计算输入图像x和模型infer之后的图像之间的L2 loss</p>
+<h4 id="Perceptual-Loss"><a href="#Perceptual-Loss" class="headerlink" title="Perceptual Loss"></a>Perceptual Loss</h4><p>有点类似于SRGAN的思路，就是不在pixel-space计算loss，用一个feature extractor先提取特征再计算两者的loss</p>
+<h4 id="Regularization-Loss"><a href="#Regularization-Loss" class="headerlink" title="Regularization Loss"></a>Regularization Loss</h4><p>为了保证由图像encoding生成的W隐向量不能太偏离stylegan中的W的domain，其实这一点和motivation有一点矛盾，这样做并不利于pSp处理不在stylegan domain的input。</p>
+<p>**有点类似于Auto-Encoder中的KL Divergence，其要求input生成的q(z|x)尽量和p(z)相似。可以把经历了FPN和map2style得到的w看做q(z|x)，pre-trained stylegan的w分布看做p(z)**。</p>
+<h4 id="Identity-Loss"><a href="#Identity-Loss" class="headerlink" title="Identity Loss"></a>Identity Loss</h4><p>也是比较specific，主要是保证经过pSp encode和decode(stylegan generator可以看成一个decode过程)得到的人脸在标识性上不能有太大偏差，即能认得出来是同一个人。这里使用到了一个辅助网络ArcFace Network，该网络用来判断两张脸是不是同一人</p>
+<h3 id="Discussion"><a href="#Discussion" class="headerlink" title="Discussion"></a>Discussion</h3><p>论文给出了两个缺陷</p>
+<ul>
+<li>第一就是之前提到的，不适用于不在stylegan domain的图片；</li>
+<li>第二就是inversion的图像在一些finer detail上表现不太好，比如有些人脸缺失了耳环；</li>
+</ul>
+<p>总的来说，pSp还是经历了encode和decode的过程，必然会有恢复上的损失，如果想对不在stylegan domain的图像进行semantic manipulation，比如给动漫人物戴眼镜，戴口罩这类操作，仍旧不可行。</p>
 
       
     </div>
@@ -362,7 +362,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag"># 随笔</a>
+            <a href="/tags/%E7%A7%91%E7%A0%94/" rel="tag"># 科研</a>
           
         </div>
       
@@ -375,8 +375,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2021/08/27/Phd%E7%94%B3%E8%AF%B7%E4%B9%8B%E8%B7%AF/" rel="next" title="PhD申请之路">
-                <i class="fa fa-chevron-left"></i> PhD申请之路
+              <a href="/2021/08/30/StyleGAN-%E4%BB%A3%E7%A0%81%E8%AF%A6%E8%A7%A3/" rel="next" title="StyleGAN 代码详解">
+                <i class="fa fa-chevron-left"></i> StyleGAN 代码详解
               </a>
             
           </div>
@@ -384,10 +384,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2021/08/29/Enhance-Game-Textures-Literature-Review-Outline/" rel="prev" title="Enhance Game Textures-Literature Review Outline">
-                Enhance Game Textures-Literature Review Outline <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -449,8 +445,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -501,6 +506,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E3%80%8AEncoding-in-Style-a-StyleGAN-Encoder-for-Image-to-Image-Translation%E3%80%8B"><span class="nav-number">1.</span> <span class="nav-text">《Encoding in Style: a StyleGAN Encoder for Image-to-Image Translation》</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Motivation"><span class="nav-number">1.1.</span> <span class="nav-text">Motivation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Architecture"><span class="nav-number">1.2.</span> <span class="nav-text">Architecture</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Feature-Pyramid-Network"><span class="nav-number">1.2.1.</span> <span class="nav-text">Feature Pyramid Network</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Map2Style"><span class="nav-number">1.2.2.</span> <span class="nav-text">Map2Style</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#StyleGAN-Generator"><span class="nav-number">1.2.3.</span> <span class="nav-text">StyleGAN Generator</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Objective"><span class="nav-number">1.3.</span> <span class="nav-text">Objective</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Pixel-loss"><span class="nav-number">1.3.1.</span> <span class="nav-text">Pixel loss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Perceptual-Loss"><span class="nav-number">1.3.2.</span> <span class="nav-text">Perceptual Loss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Regularization-Loss"><span class="nav-number">1.3.3.</span> <span class="nav-text">Regularization Loss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Identity-Loss"><span class="nav-number">1.3.4.</span> <span class="nav-text">Identity Loss</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Discussion"><span class="nav-number">1.4.</span> <span class="nav-text">Discussion</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -661,9 +682,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://example.com/2021/08/28/%E6%9D%82%E8%AE%B0%EF%BC%8C%E4%B8%80/';
-          this.page.identifier = '2021/08/28/杂记，一/';
-          this.page.title = '杂记，一';
+          this.page.url = 'http://example.com/2021/08/31/pixel2style2pixel-%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/';
+          this.page.identifier = '2021/08/31/pixel2style2pixel-论文笔记/';
+          this.page.title = 'pixel2style2pixel 论文笔记';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://wileewang.disqus.com/embed.js';
