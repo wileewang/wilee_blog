@@ -337,7 +337,7 @@
 <h3 id="Objective"><a href="#Objective" class="headerlink" title="Objective"></a>Objective</h3><p>pSp优化主要有四个目标pixel loss, perceptual loss, regularization loss和identity loss</p>
 <h4 id="Pixel-loss"><a href="#Pixel-loss" class="headerlink" title="Pixel loss"></a>Pixel loss</h4><p>直接计算输入图像x和模型infer之后的图像之间的L2 loss</p>
 <h4 id="Perceptual-Loss"><a href="#Perceptual-Loss" class="headerlink" title="Perceptual Loss"></a>Perceptual Loss</h4><p>有点类似于SRGAN的思路，就是不在pixel-space计算loss，用一个feature extractor先提取特征再计算两者的loss</p>
-<h4 id="Regularization-Loss"><a href="#Regularization-Loss" class="headerlink" title="Regularization Loss"></a>Regularization Loss</h4><p>为了保证由图像encoding生成的W隐向量不能太偏离stylegan中的W的domain，其实这一点和motivation有一点矛盾，这样做并不利于pSp处理不在stylegan domain的input。**有点类似于Auto-Encoder中的KL Divergence，其要求input生成的q(z|x)尽量和p(z)相似。可以把经历了FPN和map2style得到的w看做q(z|x)，pre-trained stylegan的w分布看做p(z)**。</p>
+<h4 id="Regularization-Loss"><a href="#Regularization-Loss" class="headerlink" title="Regularization Loss"></a>Regularization Loss</h4><p>为了保证由图像encoding生成的W隐向量不能太偏离stylegan中的W的domain，其实这一点和motivation有一点矛盾，这样做并不利于pSp处理不在stylegan domain的input。<strong>有点类似于Auto-Encoder中的KL Divergence</strong>，其要求input生成的q(z|x)尽量和p(z)相似。可以把经历了FPN和map2style得到的w看做q(z|x)，pre-trained stylegan的w分布看做p(z)。</p>
 <h4 id="Identity-Loss"><a href="#Identity-Loss" class="headerlink" title="Identity Loss"></a>Identity Loss</h4><p>也是比较specific，主要是保证经过pSp encode和decode(stylegan generator可以看成一个decode过程)得到的人脸在标识性上不能有太大偏差，即能认得出来是同一个人。这里使用到了一个辅助网络ArcFace Network，该网络用来判断两张脸是不是同一人</p>
 <h3 id="Discussion"><a href="#Discussion" class="headerlink" title="Discussion"></a>Discussion</h3><p>论文给出了两个缺陷</p>
 <ul>
