@@ -79,16 +79,16 @@
 
 
 
-<meta name="description" content="《Encoding in Style: a StyleGAN Encoder for Image-to-Image Translation》 一个在stylegan基础上比较有趣的延伸，利用了stylegan能够生成高分辨、高质量图像的特性。 Motivation 利用传统W空间进行inverse的效果很差(w does not lead to an accurate reconstruction">
+<meta name="description" content="一个在stylegan基础上比较有趣的延伸，利用了stylegan能够生成高分辨、高质量图像的特性。 Motivation 利用传统W空间进行inverse的效果很差(w does not lead to an accurate reconstruction)，pSp使用了w+空间，通俗点说就是用了图像不同分辨率的信息，然后加入到对应的stylegan generator中 大部分方法实现lat">
 <meta property="og:type" content="article">
-<meta property="og:title" content="pixel2style2pixel 论文笔记">
+<meta property="og:title" content="Encoding in Style a StyleGAN Encoder for Image-to-Image Translation 论文笔记">
 <meta property="og:url" content="http://example.com/2021/08/31/pixel2style2pixel-%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Wilee Wang&#39;s Personal Page">
-<meta property="og:description" content="《Encoding in Style: a StyleGAN Encoder for Image-to-Image Translation》 一个在stylegan基础上比较有趣的延伸，利用了stylegan能够生成高分辨、高质量图像的特性。 Motivation 利用传统W空间进行inverse的效果很差(w does not lead to an accurate reconstruction">
+<meta property="og:description" content="一个在stylegan基础上比较有趣的延伸，利用了stylegan能够生成高分辨、高质量图像的特性。 Motivation 利用传统W空间进行inverse的效果很差(w does not lead to an accurate reconstruction)，pSp使用了w+空间，通俗点说就是用了图像不同分辨率的信息，然后加入到对应的stylegan generator中 大部分方法实现lat">
 <meta property="og:locale">
 <meta property="og:image" content="https://raw.githubusercontent.com/wileewang/MarkdownPhotos/main/GAN/pSp%20notes.jpg">
 <meta property="article:published_time" content="2021-08-31T15:12:48.000Z">
-<meta property="article:modified_time" content="2021-09-01T08:40:54.896Z">
+<meta property="article:modified_time" content="2021-09-06T16:37:54.235Z">
 <meta property="article:author" content="Wilee Wang">
 <meta property="article:tag" content="科研">
 <meta name="twitter:card" content="summary">
@@ -128,7 +128,7 @@
 
 
 
-  <title>pixel2style2pixel 论文笔记 | Wilee Wang's Personal Page</title>
+  <title>Encoding in Style a StyleGAN Encoder for Image-to-Image Translation 论文笔记 | Wilee Wang's Personal Page</title>
   
 
 
@@ -262,7 +262,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">pixel2style2pixel 论文笔记</h1>
+          <h1 class="post-title" itemprop="name headline">Encoding in Style a StyleGAN Encoder for Image-to-Image Translation 论文笔记</h1>
         
 
         <div class="post-meta">
@@ -323,7 +323,7 @@
       
 
       
-        <h2 id="《Encoding-in-Style-a-StyleGAN-Encoder-for-Image-to-Image-Translation》"><a href="#《Encoding-in-Style-a-StyleGAN-Encoder-for-Image-to-Image-Translation》" class="headerlink" title="《Encoding in Style: a StyleGAN Encoder for Image-to-Image Translation》"></a>《<em>Encoding in Style: a StyleGAN Encoder for Image-to-Image Translation</em>》</h2><p><img src="https://raw.githubusercontent.com/wileewang/MarkdownPhotos/main/GAN/pSp%20notes.jpg" alt="pSp notes"></p>
+        <p><img src="https://raw.githubusercontent.com/wileewang/MarkdownPhotos/main/GAN/pSp%20notes.jpg" alt="pSp notes"></p>
 <p>一个在stylegan基础上比较有趣的延伸，利用了stylegan能够生成高分辨、高质量图像的特性。</p>
 <h3 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h3><ul>
 <li>利用传统W空间进行inverse的效果很差(<em>w does not lead to an accurate reconstruction</em>)，pSp使用了w+空间，通俗点说就是用了图像不同分辨率的信息，然后加入到对应的stylegan generator中</li>
@@ -529,7 +529,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E3%80%8AEncoding-in-Style-a-StyleGAN-Encoder-for-Image-to-Image-Translation%E3%80%8B"><span class="nav-number">1.</span> <span class="nav-text">《Encoding in Style: a StyleGAN Encoder for Image-to-Image Translation》</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Motivation"><span class="nav-number">1.1.</span> <span class="nav-text">Motivation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Architecture"><span class="nav-number">1.2.</span> <span class="nav-text">Architecture</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Feature-Pyramid-Network"><span class="nav-number">1.2.1.</span> <span class="nav-text">Feature Pyramid Network</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Map2Style"><span class="nav-number">1.2.2.</span> <span class="nav-text">Map2Style</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#StyleGAN-Generator"><span class="nav-number">1.2.3.</span> <span class="nav-text">StyleGAN Generator</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Objective"><span class="nav-number">1.3.</span> <span class="nav-text">Objective</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Pixel-loss"><span class="nav-number">1.3.1.</span> <span class="nav-text">Pixel loss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Perceptual-Loss"><span class="nav-number">1.3.2.</span> <span class="nav-text">Perceptual Loss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Regularization-Loss"><span class="nav-number">1.3.3.</span> <span class="nav-text">Regularization Loss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Identity-Loss"><span class="nav-number">1.3.4.</span> <span class="nav-text">Identity Loss</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Discussion"><span class="nav-number">1.4.</span> <span class="nav-text">Discussion</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Motivation"><span class="nav-number">1.</span> <span class="nav-text">Motivation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Architecture"><span class="nav-number">2.</span> <span class="nav-text">Architecture</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Feature-Pyramid-Network"><span class="nav-number">2.1.</span> <span class="nav-text">Feature Pyramid Network</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Map2Style"><span class="nav-number">2.2.</span> <span class="nav-text">Map2Style</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#StyleGAN-Generator"><span class="nav-number">2.3.</span> <span class="nav-text">StyleGAN Generator</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Objective"><span class="nav-number">3.</span> <span class="nav-text">Objective</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Pixel-loss"><span class="nav-number">3.1.</span> <span class="nav-text">Pixel loss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Perceptual-Loss"><span class="nav-number">3.2.</span> <span class="nav-text">Perceptual Loss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Regularization-Loss"><span class="nav-number">3.3.</span> <span class="nav-text">Regularization Loss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Identity-Loss"><span class="nav-number">3.4.</span> <span class="nav-text">Identity Loss</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Discussion"><span class="nav-number">4.</span> <span class="nav-text">Discussion</span></a></li></ol></div>
             
 
           </div>
@@ -690,7 +690,7 @@
         var disqus_config = function () {
           this.page.url = 'http://example.com/2021/08/31/pixel2style2pixel-%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/';
           this.page.identifier = '2021/08/31/pixel2style2pixel-论文笔记/';
-          this.page.title = 'pixel2style2pixel 论文笔记';
+          this.page.title = 'Encoding in Style a StyleGAN Encoder for Image-to-Image Translation 论文笔记';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://wileewang.disqus.com/embed.js';
