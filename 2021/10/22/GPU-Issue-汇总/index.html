@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="代码," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="最近在跑StyleGAN-NADA代码时，配环境遇到了较大的问题。原因在于StyleGAN-NADA基于Pytorch的StyleGAN2，而StyleGAN2用到了C++ extensions来实现一些算子，这些C++代码依赖一些CUDA的library，所以CUDA的版本就比较重要。这里先介绍一下CUDA，然后区别一下在安装Pytorch时安装的toolkit。 CUDA Toolkit这里的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Summary of GPU Environment Issues">
+<meta property="og:url" content="http://example.com/2021/10/22/GPU-Issue-%E6%B1%87%E6%80%BB/index.html">
+<meta property="og:site_name" content="Wilee Wang&#39;s Personal Page">
+<meta property="og:description" content="最近在跑StyleGAN-NADA代码时，配环境遇到了较大的问题。原因在于StyleGAN-NADA基于Pytorch的StyleGAN2，而StyleGAN2用到了C++ extensions来实现一些算子，这些C++代码依赖一些CUDA的library，所以CUDA的版本就比较重要。这里先介绍一下CUDA，然后区别一下在安装Pytorch时安装的toolkit。 CUDA Toolkit这里的">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-10-22T06:55:51.000Z">
+<meta property="article:modified_time" content="2021-10-22T08:26:22.911Z">
+<meta property="article:author" content="Wilee Wang">
+<meta property="article:tag" content="代码">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2021/10/22/GPU-Issue-汇总/"/>
+
+
+
+
+
+  <title>Summary of GPU Environment Issues | Wilee Wang's Personal Page</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wilee Wang's Personal Page</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">How to feel time--write</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/10/22/GPU-Issue-%E6%B1%87%E6%80%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wilee Wang's Personal Page">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Summary of GPU Environment Issues</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-10-22T14:55:51+08:00">
+                2021-10-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近在跑StyleGAN-NADA代码时，配环境遇到了较大的问题。原因在于StyleGAN-NADA基于Pytorch的StyleGAN2，而StyleGAN2用到了C++ extensions来实现一些算子，这些C++代码依赖一些CUDA的library，所以CUDA的版本就比较重要。这里先介绍一下CUDA，然后区别一下在安装Pytorch时安装的toolkit。</p>
+<h1 id="CUDA-Toolkit"><a href="#CUDA-Toolkit" class="headerlink" title="CUDA Toolkit"></a>CUDA Toolkit</h1><p>这里的CUDA Toolkit指的是从<a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-toolkit-archive">NVIDIA</a>官网上下载的安装包。它主要包括了：</p>
+<ol>
+<li>CUDA SDK : 包括Compiler即NVCC, libraries for developing， CUDA software，和CUDA samples</li>
+<li>GUI Tools</li>
+<li>Nvidia Driver：这个主要是驱动显卡</li>
+</ol>
+<h2 id="Issue-0"><a href="#Issue-0" class="headerlink" title="Issue #0"></a>Issue #0</h2><p>一个常见的issue: </p>
+<blockquote>
+<p>Different CUDA versions shown by NVCC and NVIDIA-SMI</p>
+</blockquote>
+<p>根据网上的一些<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/53422407/different-cuda-versions-shown-by-nvcc-and-nvidia-smi">解析</a>，原因是CUDA有两个API：</p>
+<ul>
+<li>Runtime API</li>
+<li>Driver API</li>
+</ul>
+<p>两个都有对应的版本。对于Driver API，它是由显卡驱动程序（GPU Driver Installer）安装的，比如上面CUDA Toolkit也会包括一个NVIDIA Driver，所以也可能包括了Driver API。其中包含libcuda.so。而<code>NVIDIA-SMI</code>工具就是由它安装的，并且通常输出的版本信息，还包括驱动的版本，例如：</p>
+<blockquote>
+<figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;NVIDIA-SMI <span class="number">410.72</span></span><br><span class="line">&gt;Driver Version: <span class="number">410.72</span></span><br><span class="line">&gt;CUDA Version: <span class="number">10.0</span>    </span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>这里的CUDA Version指的就是Driver API的version。</p>
+<p>对于Runtime API，就是由CUDA Toolkit Installer安装的，<code>NVCC</code>就是由它安装的，还包括一些像libcudart.so的文件。并且，<code>NVCC</code>并不知道Driver API的版本，甚至不知道是否安装了显卡驱动。</p>
+<p>综上，如果driver API和runtime API的CUDA版本不一致可能是因为你使用的是单独的GPU driver installer，而不是CUDA Toolkit installer里的GPU driver installer。</p>
+<p>这里再放一段描述：</p>
+<blockquote>
+<p>It is composed of two APIs:</p>
+<ul>
+<li>A low-level API called the CUDA driver API,</li>
+<li>A higher-level API called the CUDA runtime API that is implemented on top of the CUDA driver API.</li>
+</ul>
+<p>These APIs are mutually exclusive: An application should use either one or the other.</p>
+<p>The CUDA runtime eases device code management by providing implicit initialization, context management, and module management. The C host code generated by nvcc is based on the CUDA runtime (see Section 4.2.5), so applications that link to this code must use the CUDA runtime API.</p>
+<p>In contrast, the CUDA driver API requires more code, is harder to program and debug, but offers a better level of control and is language-independent since it only deals with cubin objects (see Section 4.2.5). In particular, it is more difficult to configure and launch kernels using the CUDA driver API, since the execution configuration and kernel parameters must be specified with explicit function calls instead of the execution configuration syntax described in Section 4.2.3. Also, device emulation (see Section 4.5.2.9) does not work with the CUDA driver API.</p>
+</blockquote>
+<p>总结一下，以后在配置环境时，如果采用从官方下载runfile进行安装，需要注意的点比较多：1）选择对应系统和显卡的安装文件；2）Driver和Runtime的版本需要匹配，通常Driver版本大于Runtime版本问题不大；3）安装之后，需要配置路径，例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">export</span> LD_LIBRARY_PATH=/usr/<span class="built_in">local</span>/cuda-11.5/lib64\</span></span><br><span class="line"><span class="bash">                         <span class="variable">$&#123;LD_LIBRARY_PATH:+:<span class="variable">$&#123;LD_LIBRARY_PATH&#125;</span>&#125;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>而anaconda其实也提供了安装cuda的方式，比较简单。</p>
+<h2 id="Issue-1"><a href="#Issue-1" class="headerlink" title="Issue #1"></a>Issue #1</h2><p>最近跑代码经常出现<strong>RuntimeError</strong></p>
+<p>在最开始使用<code>torch 1.7.1 +CUDA 11.0</code>时：</p>
+<blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;RuntimeError: Error building extension <span class="string">&#x27;fused&#x27;</span>: [<span class="number">1</span>/<span class="number">2</span>] /usr/local/cuda/<span class="built_in">bin</span>/nvcc</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>而在使用<code>torch 1.8.1 + CUDA 11.1</code>时：</p>
+<ol>
+<li><p>12GB显存，报显存不够</p>
+</li>
+<li><p>16GB显存，报:</p>
+<blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;RuntimeError: CUDA error: CUBLAS_STATUS_EXECUTION_FAILED when calling</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>看网上说，这个是因为CUDA的版本问题。</p>
+</li>
+<li><p>48GB显存，成功运行</p>
+</li>
+</ol>
+<p>之后当我安装了<code>torch 1.10.0 + CUDA  11.3</code>时，16GB显存已经不会报错了。还有很多稀奇古怪的错误，找不到C++ 头文件的，猜想也是和CUDA Runtime API有关。可按照这个逻辑来说，就是我用的torch版本和cuda版本太旧了，然而可作者应该用的是<code>torch 1.7.1 </code>，只是不知道什么版本的cuda，而StyleGAN2里面已经测试过<code>torch 1.3.1 + cuda 10.1/2</code>可行了，这个错误很大程度上就是和StyleGAN2相关的，可我也试过<code>torch 1.5.1 + cuda 10.1</code>，仍旧不行，属实有点迷茫了。</p>
+<p>Anyway，找到一个能够跑的版本就还行吧，这里稍微补充一下关于anaconda安装CUDA Toolkit的知识。首先放一下官网的描述：</p>
+<blockquote>
+<p>The CUDA Toolkit from NVIDIA provides everything you need to develop GPU-accelerated applications. This CUDA Toolkit includes GPU-accelerated libraries, and the CUDA runtime for the Conda ecosystem. For the full CUDA Toolkit with a compiler and development tools visit <a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-downloads">https://developer.nvidia.com/cuda-downloads</a></p>
+</blockquote>
+<p>总的来说，就是程序需要CUDA的Runtime和Libraries，用conda安装就足够了，并且像torch还能配套安装，这样更难出现版本不match的情况。pytorch和CUDA的配合，引用<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/91334380">知乎</a>上的一段话：</p>
+<blockquote>
+<p>但对于 Pytorch 之类的深度学习框架而言，其在大多数需要使用 GPU 的情况中只需要使用 CUDA 的动态链接库支持程序的运行( <strong>Pytorch 本身与 CUDA 相关的部分是提前编译好的</strong> )，就像常见的可执行程序一样，不需要重新进行编译过程，只需要其所依赖的动态链接库存在即可正常运行。</p>
+</blockquote>
+<p>所以也不需要编译器，甚至不需要驱动程序，当然需要机器本身就已经安装了能兼容的显卡驱动程序，否则还是需要安装的。</p>
+<p>然后这里其实也提供了一点hint，为什么torch的版本和cuda不同组合也会报错，可能就是两者相关的部分是预编译好的，如果使用不同的版本，可能也会报错。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E4%BB%A3%E7%A0%81/" rel="tag"># 代码</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/10/15/ReStyle-%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/" rel="next" title="ReStyle:A Residual-Based StyleGAN Encoder via Iterative Refinement 论文笔记">
+                <i class="fa fa-chevron-left"></i> ReStyle:A Residual-Based StyleGAN Encoder via Iterative Refinement 论文笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/wileewang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CUDA-Toolkit"><span class="nav-number">1.</span> <span class="nav-text">CUDA Toolkit</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Issue-0"><span class="nav-number">1.1.</span> <span class="nav-text">Issue #0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Issue-1"><span class="nav-number">1.2.</span> <span class="nav-text">Issue #1</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wilee Wang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
